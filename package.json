@@ -1,0 +1,9 @@
+{
+  "name": "bieten-und-haben",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-first Auktionsspiel fuer 2 Spieler auf einem Geraet",
+  "scripts": {
+    "test": "node --test"
+  }
+}
