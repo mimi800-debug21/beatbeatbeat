@@ -470,6 +470,7 @@ button:disabled {
   color: #fff;
   box-shadow: var(--shadow-card);
   position: relative;
+  min-width: 0;
   transition: transform var(--dur) var(--ease-out);
 }
 
@@ -508,7 +509,9 @@ button:disabled {
 }
 
 .turn-tag {
-  margin-left: auto;
+  position: absolute;
+  top: calc(var(--space-s) - 6px);
+  right: calc(var(--space-m) - 6px);
   background: var(--gold);
   color: var(--ink);
   font-family: var(--font-display);
@@ -517,6 +520,10 @@ button:disabled {
   border-radius: 999px;
   padding: 2px 10px;
   white-space: nowrap;
+}
+
+.player-card.is-turn .pc-top {
+  padding-right: 58px;
 }
 
 .pc-budget {
@@ -560,7 +567,7 @@ button:disabled {
   background: var(--gold);
   border-radius: 999px;
 }
-/* ===== Glücksrad ===== */
+/* ===== Glï¿½cksrad ===== */
 .wheel-wrap {
   display: flex;
   flex-direction: column;
@@ -658,19 +665,19 @@ button:disabled {
 }
 
 .btn-spin {
-  background: var(--pink);
+  background: #c2406b;
   color: var(--surface);
   font-size: var(--step-2);
   padding: var(--space-m) var(--space-2xl);
-  box-shadow: 0 6px 0 #c2406b;
+  box-shadow: 0 6px 0 #8e2a4e;
 }
 
 .btn-spin:hover {
-  box-shadow: 0 8px 0 #c2406b;
+  box-shadow: 0 8px 0 #8e2a4e;
 }
 
 .btn-spin:active {
-  box-shadow: 0 2px 0 #c2406b;
+  box-shadow: 0 2px 0 #8e2a4e;
 }
 
 .wheel-hint {
@@ -679,7 +686,7 @@ button:disabled {
   font-size: var(--step-1);
 }
 
-/* ===== Bühne (Auktion) ===== */
+/* ===== Bï¿½hne (Auktion) ===== */
 .stage {
   display: flex;
   flex-direction: column;

@@ -47,19 +47,19 @@
     }
     switch (g.phase) {
       case 'wheel':
-        ui.wheelScreen(g, g.roundsPlayed + 1);
+        ui.setRoot(ui.wheelScreen(g, g.roundsPlayed + 1));
         break;
       case 'auction':
-        ui.auctionScreen(g);
+        ui.setRoot(ui.auctionScreen(g));
         break;
       case 'sold':
-        ui.soldScreen(g);
+        ui.setRoot(ui.soldScreen(g));
         break;
       case 'gift':
-        ui.giftScreen(g);
+        ui.setRoot(ui.giftScreen(g));
         break;
       case 'results':
-        ui.resultsScreen(g);
+        ui.setRoot(ui.resultsScreen(g));
         break;
       default:
         ui.renderSetup(window.CATEGORIES, defaults);

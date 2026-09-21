@@ -233,7 +233,7 @@
       <section class="stage" aria-label="Auktionsgegenstand">
         <div class="card" aria-label="${esc(r.item.name)}">
           <span class="card-emoji" aria-hidden="true">${r.item.emoji}</span>
-          <h2 class="card-name">${esc(r.item.name)}</h2>
+          <h1 class="card-name">${esc(r.item.name)}</h1>
         </div>
         <div class="price-sign quiet" aria-live="polite">
           <span class="price-eur numeric">${window.game.currentBid(game)}</span>
