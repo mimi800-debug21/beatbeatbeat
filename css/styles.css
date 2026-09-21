@@ -814,10 +814,19 @@ button:disabled {
   box-shadow: 0 2px 0 var(--p2-deep);
 }
 
-.footnote {
-  color: var(--ink-2);
-  font-size: var(--step--1);
+.bid-preview {
+  margin-top: var(--space-2xs);
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: var(--step-1);
   text-align: center;
+  border-radius: var(--radius);
+  padding: var(--space-s) var(--space-m);
+}
+
+.bid-preview strong {
+  font-weight: 900;
 }
 
 /* ===== Zuschlag ===== */

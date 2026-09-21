@@ -184,10 +184,6 @@
       render();
     },
     start: null,
-    'start-game': () => {
-      const form = document.getElementById('setup-form');
-      if (form) handleSetup(form);
-    },
     spin,
     bid: (el) => bid(el.dataset.step),
     'give-up': giveUp,
@@ -217,7 +213,7 @@
 
   // Enter soll in Namensfeldern nicht versehentlich das Spiel starten.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.matches('#setup-form input[type="text"]')) {
+    if (e.key === 'Enter' && e.target.matches('#setup-form input[type="text"], #setup-form input[type="number"]')) {
       e.preventDefault();
     }
   });

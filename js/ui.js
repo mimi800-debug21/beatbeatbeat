@@ -72,7 +72,7 @@
         <button type="button" class="icon-btn" data-action="toggle-mute" aria-label="Ton an oder aus">${window.app.isMuted() ? '🔇' : '🔊'}</button>
       </header>
 
-      <form id="setup-form" data-action="start-game" novalidate>
+      <form id="setup-form" novalidate>
         <section class="panel" aria-labelledby="h-setup">
           <h1 id="h-setup" class="setup-title">Los geht's! 🎪</h1>
           <p class="setup-sub">Stellt alles ein und lasst das Glück die erste Auktion bestimmen.</p>
@@ -135,7 +135,7 @@
           </fieldset>
 
           <p class="form-error" id="setup-error" role="alert" hidden></p>
-          <button type="submit" class="btn-start" data-action="start-game">🚀 Spiel starten</button>
+          <button type="submit" class="btn-start">🚀 Spiel starten</button>
         </section>
       </form>
     `);
@@ -215,6 +215,16 @@
       ? `${esc(me.name)}: überbieten <span class="turn-who">oder dem anderen lassen</span>`
       : `${esc(me.name)} setzt als Erster ein Gebot!`;
 
+    const cur = window.game.currentBid(game);
+    let preview;
+    if (r.bid === 0) {
+      preview = `Startgebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
+    } else if (r.lastBidderId === me.id) {
+      preview = `Dein Gebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
+    } else {
+      preview = `Überbieten auf <strong>${cur + 1} €</strong> – dann übrig: <strong>${budget - cur - 1} €</strong>`;
+    }
+
     return `
       ${topbar(catName(game), `${esc(r.item.emoji)} ${esc(r.item.name)}`)}
       ${ui.playerBar(game, { highlight: me.id, tag: 'bietet' })}
@@ -231,11 +241,10 @@
 
       <section class="bid-area" aria-label="Gebot abgeben">
         <p class="turn-line"><span class="turn-dot ${me.id === 1 ? 'p1' : 'p2'}"></span>${turnLine}</p>
+        <p class="bid-preview" aria-live="polite">${preview}</p>
         <div class="bid-row">${stepBtns}</div>
         <button type="button" class="btn-giveup" data-action="give-up" ${canGiveUp ? '' : 'disabled'}>🤝 Kannst haben</button>
-      </section>
-
-      <p class="footnote">Restbudget von ${esc(me.name)}: ${budget} €</p>`;
+      </section>`;
   };
 
   // ============ Zuschlag ============
