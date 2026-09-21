@@ -2,7 +2,7 @@
 
 Kirmes-Auktion für zwei Kinder auf **einem** Gerät (Hot-Seat). Wer zuerst das Ziel an Gegenständen ersteigert oder ohne Geld dasteht, gewinnt – oder bekommt am Ende alles geschenkt, damit niemand leer ausgeht.
 
-Spielbar unter: <https://micro8.github.io/beatbeatbeat/> (sobald GitHub Pages aktiviert ist).
+Spielbar unter: <https://mimi800-debug21.github.io/beatbeatbeat/> (sobald GitHub Pages aktiviert ist).
 
 ## Spielregeln
 
