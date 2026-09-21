@@ -83,14 +83,10 @@
               <div class="player-setup p1">
                 <label for="name1">Name von Spieler 1</label>
                 <input id="name1" name="name1" type="text" maxlength="14" value="${esc(defaults.names[0])}" autocomplete="off">
-                <label for="emoji1">Markenzeichen</label>
-                <select id="emoji1" name="emoji1">${emojis().map((e) => sel(e, defaults.emojis[0])).join('')}</select>
               </div>
               <div class="player-setup p2">
                 <label for="name2">Name von Spieler 2</label>
                 <input id="name2" name="name2" type="text" maxlength="14" value="${esc(defaults.names[1])}" autocomplete="off">
-                <label for="emoji2">Markenzeichen</label>
-                <select id="emoji2" name="emoji2">${emojis().map((e) => sel(e, defaults.emojis[1])).join('')}</select>
               </div>
             </div>
           </fieldset>
@@ -145,13 +141,6 @@
     `);
   };
 
-  function emojis() {
-    return ['🦊', '🐻', '🦁', '🐸', '🐙', '🦖'];
-  }
-  function sel(e, current) {
-    return `<option value="${e}" ${e === current ? 'selected' : ''}>${e}</option>`;
-  }
-
   // ============ Spieler-Leiste + Live-Anzeige ============
   ui.playerBar = function (game, opts = {}) {
     return `
@@ -164,7 +153,6 @@
           return `
           <div class="player-card ${cls}${isToMove ? ' is-turn' : ''}">
             <div class="pc-top">
-              <span class="pc-emoji" aria-hidden="true">${p.emoji}</span>
               <span class="pc-name">${esc(p.name)}</span>
               ${marker}
             </div>
@@ -188,8 +176,8 @@
         <h1 class="wheel-title">Wer darf zuerst bieten?</h1>
         <div class="wheelbox" id="wheel">
           <div class="wheel-disc" id="wheel-disc">
-            <span class="ws-pill" data-player="1"><span aria-hidden="true">${p1.emoji}</span>${esc(p1.name)}</span>
-            <span class="ws-pill ws-pill--opp" data-player="2"><span aria-hidden="true">${p2.emoji}</span>${esc(p2.name)}</span>
+            <span class="ws-pill" data-player="1">${esc(p1.name)}</span>
+            <span class="ws-pill ws-pill--opp" data-player="2">${esc(p2.name)}</span>
           </div>
           <div class="wheel-marker" aria-hidden="true"></div>
           <div class="wheel-cap" aria-hidden="true">🎡</div>
@@ -279,7 +267,7 @@
         const chips = items
           .map((it) => `<span class="gift-chip"><span aria-hidden="true">${it.emoji}</span> ${esc(it.name)}</span>`)
           .join('');
-        return `<div class="gift-row ${cls}"><span class="gift-emoji" aria-hidden="true">${p.emoji}</span><div><h2>${esc(p.name)} bekommt geschenkt!</h2><div class="gift-chips">${chips}</div></div></div>`;
+        return `<div class="gift-row ${cls}"><div><h2>${esc(p.name)} bekommt geschenkt!</h2><div class="gift-chips">${chips}</div></div></div>`;
       })
       .join('');
     return `
@@ -303,7 +291,6 @@
     const playerCol = ({ p, s, cls }) => `
       <section class="result-player ${cls}">
         <header class="rp-head">
-          <span class="rp-emoji" aria-hidden="true">${p.emoji}</span>
           <h2>${esc(p.name)}</h2>
         </header>
         <dl class="rp-stats numeric">

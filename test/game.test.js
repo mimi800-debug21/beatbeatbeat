@@ -13,7 +13,6 @@ function makeGame(overrides = {}) {
         wheelMode: 'once',
         names: ['Anna', 'Ben'],
         colors: ['#2563eb', '#e11d48'],
-        emojis: ['🦊', '🐻'],
         rng: () => 0
       },
       overrides

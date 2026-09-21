@@ -12,8 +12,7 @@
     budget: 20,
     target: 5,
     wheelMode: 'once',
-    names: ['Spieler 1', 'Spieler 2'],
-    emojis: ['🦊', '🐻']
+    names: ['Spieler 1', 'Spieler 2']
   };
 
   function loadPrefs() {
@@ -71,8 +70,7 @@
       Object.assign(
         {
           names: defaults.names,
-          colors: ['#2458e8', '#e2283c'],
-          emojis: defaults.emojis
+          colors: ['#2458e8', '#e2283c']
         },
         cfg
       )
@@ -93,9 +91,8 @@
     const budget = Math.max(1, Math.min(99, parseInt(data.budget, 10) || 1));
     const target = Math.max(1, Math.min(maxTarget, parseInt(data.target, 10) || 1));
     const names = [data.name1.trim() || defaults.names[0], data.name2.trim() || defaults.names[1]];
-    const emojis = [data.emoji1 || defaults.emojis[0], data.emoji2 || defaults.emojis[1]];
     const wheelMode = data.wheelMode === 'each' ? 'each' : 'once';
-    savePrefs({ names, emojis });
+    savePrefs({ names });
     startGame({ category: defaults.category, budget, target, wheelMode });
   }
 
@@ -215,6 +212,13 @@
     if (e.target.matches('#setup-form')) {
       e.preventDefault();
       handleSetup(e.target);
+    }
+  });
+
+  // Enter soll in Namensfeldern nicht versehentlich das Spiel starten.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches('#setup-form input[type="text"]')) {
+      e.preventDefault();
     }
   });
 

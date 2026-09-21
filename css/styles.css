@@ -285,7 +285,6 @@ button:disabled {
 }
 
 .player-setup input,
-.player-setup select,
 .num-input {
   font-family: var(--font-text);
   font-size: var(--step-1);
@@ -299,7 +298,6 @@ button:disabled {
 }
 
 .player-setup input:focus-visible,
-.player-setup select:focus-visible,
 .num-input:focus-within {
   outline: 4px solid var(--gold);
   outline-offset: 2px;
@@ -492,11 +490,6 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: var(--space-2xs);
-}
-
-.pc-emoji {
-  font-size: var(--step-2);
-  line-height: 1;
 }
 
 .pc-name {
@@ -922,11 +915,6 @@ button:disabled {
 .gift-row.p1 { background: var(--p1); }
 .gift-row.p2 { background: var(--p2); }
 
-.gift-emoji {
-  font-size: var(--step-3);
-  line-height: 1.2;
-}
-
 .gift-row h2 {
   font-size: var(--step-1);
 }
@@ -988,10 +976,6 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-}
-
-.rp-emoji {
-  font-size: var(--step-2);
 }
 
 .rp-head h2 {

@@ -35,8 +35,8 @@
         wheelMode: cfg.wheelMode === 'each' ? 'each' : 'once'
       },
       players: [
-        { id: 1, name: cfg.names[0], color: cfg.colors[0], emoji: cfg.emojis[0], budget, budgetStart: budget },
-        { id: 2, name: cfg.names[1], color: cfg.colors[1], emoji: cfg.emojis[1], budget, budgetStart: budget }
+        { id: 1, name: cfg.names[0], color: cfg.colors[0], budget, budgetStart: budget },
+        { id: 2, name: cfg.names[1], color: cfg.colors[1], budget, budgetStart: budget }
       ],
       deck,
       idx: 0,
