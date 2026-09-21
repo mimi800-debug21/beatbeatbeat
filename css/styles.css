@@ -1,0 +1,206 @@
+/* ===== Bieten & Haben – Design-Tokens ===== */
+:root {
+  --font-display: "Fredoka", "Comic Sans MS", "Trebuchet MS", sans-serif;
+  --font-text: "Nunito", "Segoe UI", system-ui, sans-serif;
+
+  /* type scale 1.333 (perfect fourth) */
+  --step--1: clamp(0.72rem, 0.68rem + 0.2vw, 0.8rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --step-1: clamp(1.24rem, 1.15rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.6rem, 1.45rem + 0.7vw, 1.85rem);
+  --step-3: clamp(2.1rem, 1.85rem + 1.2vw, 2.45rem);
+  --step-4: clamp(2.7rem, 2.3rem + 1.8vw, 3.25rem);
+  --step-5: clamp(3.5rem, 2.9rem + 2.8vw, 4.3rem);
+  --step-6: clamp(4.5rem, 3.6rem + 4.2vw, 5.8rem);
+
+  /* space scale */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+
+  /* color ramp */
+  --base: #fff3e0;
+  --surface: #ffffff;
+  --ink: #2b1b0e;
+  --ink-2: #6b5340;
+  --ink-3: #a4876a;
+  --line: #f1ddc0;
+
+  --gold: #ffc53d;
+  --gold-deep: #e69a00;
+  --mint: #3ecfa0;
+  --pink: #ff6fa5;
+  --violet: #9b7bf0;
+
+  --p1: #2458e8;
+  --p1-deep: #173fa8;
+  --p2: #e2283c;
+  --p2-deep: #b01627;
+
+  /* form */
+  --radius: 24px;
+  --shadow-card: 0 10px 22px rgba(43, 27, 14, 0.14);
+  --shadow-pop: 0 5px 0 rgba(43, 27, 14, 1);
+
+  /* motion */
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 450ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ===== Reset & Basis ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--base);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.big {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+button {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+  background: var(--surface);
+  border: 0;
+  border-radius: var(--radius);
+  padding: var(--space-m) var(--space-l);
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: var(--shadow-pop);
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background-color var(--dur), color var(--dur);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 rgba(43, 27, 14, 1);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(43, 27, 14, 1);
+}
+
+button:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.delim { border: 0; clip-path: inset(50%); height: 1px; width: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; }
+
+/* Live-Region fuer Bildschirmleser */
+#live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ===== App-Rahmen ===== */
+#app {
+  min-height: 100dvh;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-s) var(--space-s) var(--space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+/* ===== Top-Leiste ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+}
+
+.topbar .brand {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.topbar .crumb {
+  color: var(--ink-2);
+  font-size: var(--step-0);
+}
+
+.icon-btn {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--step-2);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(43, 27, 14, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
