@@ -38,8 +38,11 @@ test('createGame baut Grundzustand korrekt', () => {
 });
 
 test('createGame klampt Ziel auf maximal moegliche Deckgroesse', () => {
+  const pool = require('../js/data.js').CATEGORIES.freizeitpark.items;
   const g = makeGame({ target: 100 });
-  assert.equal(g.deck.length, 20);
+  const maxTarget = Math.floor(pool.length / 2);
+  assert.equal(g.settings.target, maxTarget);
+  assert.equal(g.deck.length, maxTarget * 2);
   const g2 = makeGame({ target: 0 });
   assert.equal(g2.deck.length, 2);
 });

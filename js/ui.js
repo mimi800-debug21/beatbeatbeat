@@ -49,21 +49,21 @@
   // ============ Setup-Screen ============
   ui.renderSetup = function (categories, defaults) {
     const catEntries = Object.entries(categories);
-    const poolSize = categories[defaults.category].items.length;
+    const activeCat = categories[defaults.category];
+    const poolSize = activeCat.items.length;
     const maxTarget = Math.floor(poolSize / 2);
     const catTiles = catEntries
       .map(([key, cat]) => {
         const active = key === defaults.category;
-        const disabled = !active ? 'disabled tabindex="-1" aria-hidden="true"' : '';
-        const badge = active ? '' : '<span class="cat-soon">bald</span>';
         return `
-          <button type="button" class="cat-tile${active ? ' is-active' : ''}" data-action="pick-category" data-value="${key}" ${disabled}>
-            <span class="cat-emoji">${cat.emoji}</span>
+          <button type="button" class="cat-tile${active ? ' is-active' : ''}" data-action="pick-category" data-value="${key}" aria-pressed="${active}">
+            <span class="cat-emoji" aria-hidden="true">${cat.emoji}</span>
             <span class="cat-name">${esc(cat.name)}</span>
-            ${badge}
+            <span class="cat-count">${cat.items.length} Stück</span>
           </button>`;
       })
       .join('');
+    const samples = activeCat.items.slice(0, 3).map((i) => i.name).join(', ');
 
     setRoot(`
       <header class="topbar">
@@ -91,10 +91,12 @@
             </div>
           </fieldset>
 
-          <fieldset class="fieldset">
-            <legend>Kategorie</legend>
-            <div class="cat-grid">${catTiles}</div>
-            <p class="hint">Zu Freizeitpark gehören z. B. Achterbahn, Riesenrad und Zuckerwatte.</p>
+          <fieldset class="fieldset" aria-labelledby="cat-legend">
+            <legend id="cat-legend">Kategorie</legend>
+            <div class="cat-gallery">
+              <div class="cat-grid">${catTiles}</div>
+            </div>
+            <p class="hint">Zu ${esc(activeCat.name)} gehören z. B. ${esc(samples)}.</p>
           </fieldset>
 
           <fieldset class="fieldset" aria-describedby="numbers-hint">
@@ -290,6 +292,26 @@
   };
 
   // ============ Auswertung ============
+  function scorePanel() {
+    const score = window.app && window.app.score ? window.app.score() : null;
+    if (!score || score.games <= 0) return '';
+    const rows = Object.entries(score.players)
+      .map(
+        ([name, s]) => `
+        <div class="score-row">
+          <span class="score-name">${esc(name)}</span>
+          <span class="score-stats numeric">${s.games} Partie${s.games === 1 ? '' : 'n'} · ${s.items} Stück ersteigert</span>
+        </div>`
+      )
+      .join('');
+    return `
+      <section class="scorecard" aria-label="Eure Bilanz">
+        <h2 class="score-title">📈 Eure Bilanz</h2>
+        <p class="score-sub">Ihr habt schon <strong class="numeric">${score.games}</strong> Partie${score.games === 1 ? '' : 'n'} gespielt.</p>
+        <div class="score-list">${rows}</div>
+      </section>`;
+  }
+
   ui.resultsScreen = function (game) {
     const p1 = window.game.statsFor(game, 1);
     const p2 = window.game.statsFor(game, 2);
@@ -327,7 +349,9 @@
           ${playerCol(decks[0])}
           ${playerCol(decks[1])}
         </div>
+        ${scorePanel()}
         <div class="results-cta">
+          <button type="button" class="btn-share" data-action="share">📣 Teilen</button>
           <button type="button" class="btn-start" data-action="play-again">🔁 Nochmal spielen</button>
           <button type="button" class="btn-ghost" data-action="new-game">⚙️ Neues Setup</button>
         </div>

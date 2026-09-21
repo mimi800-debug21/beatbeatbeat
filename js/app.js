@@ -7,6 +7,12 @@
   const sounds = window.sounds;
 
   const PREFS_KEY = 'bieten-haben-prefs';
+  const SCORE_KEY = 'bieten-haben-score';
+  // Kuerzeste sichtbare URL (ohne index.html) zum Teilen.
+  const SHARE_URL = (() => {
+    const path = location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
+    return (location.origin + path) || '';
+  })();
   let defaults = {
     category: 'freizeitpark',
     budget: 20,
@@ -37,6 +43,73 @@
     game: null,
     muted: false
   };
+
+  let score = { games: 0, players: {} };
+
+  function loadScore() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(SCORE_KEY) || 'null');
+      if (raw && typeof raw === 'object' && typeof raw.games === 'number') {
+        score = Object.assign({ games: 0, players: {} }, raw);
+      }
+    } catch (e) {
+      /* Ignoriere kaputte Bilanz */
+    }
+  }
+
+  function saveScore() {
+    try {
+      localStorage.setItem(SCORE_KEY, JSON.stringify(score));
+    } catch (e) {
+      /* Speichern ist optional */
+    }
+  }
+
+  // Einmal pro abgeschlossener Partie: gespielte Partien und Stuecke zaehlen.
+  function recordGame() {
+    const g = state.game;
+    if (!g || g.phase !== 'results') return;
+    score.games += 1;
+    for (const p of g.players) {
+      const entry = score.players[p.name] || { games: 0, items: 0 };
+      entry.games += 1;
+      entry.items += window.game.countWon(g, p.id);
+      score.players[p.name] = entry;
+    }
+    saveScore();
+  }
+
+  function shareGame() {
+    const g = state.game;
+    if (!g) return;
+    const resultLine = g.players
+      .map((p) => {
+        const s = window.game.statsFor(g, p.id);
+        return `${p.name}: ${s.count} Stück für ${s.spent} €`;
+      })
+      .join(' · ');
+    const streak = score.games > 1 ? ` Das war Partie Nr. ${score.games} bei uns.` : '';
+    const text = `🎪 Bieten & Haben – Kirmes-Auktion für 2 Kinder auf einem Gerät.\n${resultLine}.${streak}\nGratis mitspielen: ${SHARE_URL}`;
+
+    if (navigator.share) {
+      navigator.share({ title: 'Bieten & Haben', text, url: SHARE_URL }).catch((e) => {
+        if (!e || e.name !== 'AbortError') copyShareResult(`${text} ${SHARE_URL}`);
+      });
+      return;
+    }
+    copyShareResult(text);
+  }
+
+  function copyShareResult(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => ui.announce('Link und Ergebnis kopiert – jetzt weiterempfehlen!'))
+        .catch(() => ui.announce('Teilen nicht möglich – Link: ' + SHARE_URL));
+      return;
+    }
+    ui.announce('Link: ' + SHARE_URL);
+  }
 
   function render() {
     const g = state.game;
@@ -156,6 +229,7 @@
     const g = state.game;
     if (!g || g.phase !== 'gift') return;
     G.finishGifts(g);
+    recordGame();
     sounds.jingle();
     render();
   }
@@ -189,6 +263,7 @@
     'give-up': giveUp,
     'continue-sold': continueSold,
     'show-results': showResults,
+    'share': shareGame,
     'play-again': playAgain,
     'new-game': () => {
       state.game = null;
@@ -219,9 +294,13 @@
   });
 
   loadPrefs();
+  loadScore();
   window.app = {
     isMuted() {
       return state.muted;
+    },
+    score() {
+      return score;
     }
   };
   render();
