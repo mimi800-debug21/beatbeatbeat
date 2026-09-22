@@ -205,10 +205,10 @@
     const budget = me.budget;
     const bid = r.bid;
     const stepBtns = [
+      { step: 1, label: '+1&nbsp;€', avail: budget >= bid + 1 },
       { step: 2, label: '+2&nbsp;€', avail: budget >= bid + 2 },
-      { step: 6, label: '+6&nbsp;€', avail: budget >= bid + 6 },
-      { step: 10, label: '+10&nbsp;€', avail: budget >= bid + 10 },
-      { step: 'max', label: 'All-in', avail: budget > bid }
+      { step: 5, label: '+5&nbsp;€', avail: budget >= bid + 5 },
+      { step: 10, label: '+10&nbsp;€', avail: budget >= bid + 10 }
     ]
       .map(
         (b) =>
@@ -228,7 +228,7 @@
     } else if (r.lastBidderId === me.id) {
       preview = `Dein Gebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
     } else {
-      preview = `Überbieten auf <strong>${cur + 2} €</strong> – dann übrig: <strong>${budget - cur - 2} €</strong>`;
+      preview = `Überbieten auf <strong>${cur + 1} €</strong> – dann übrig: <strong>${budget - cur - 1} €</strong>`;
     }
 
     return `

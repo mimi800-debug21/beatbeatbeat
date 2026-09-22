@@ -200,8 +200,7 @@
     const g = state.game;
     if (!g || g.phase !== 'auction') return;
     const mover = g.round.toMoveId;
-    const p = G.player(g, mover);
-    const amount = step === 'max' ? p.budget : g.round.bid + Number(step);
+    const amount = g.round.bid + Number(step);
     const res = G.placeBid(g, mover, amount);
     if (!res.ok) return;
     sounds.click();

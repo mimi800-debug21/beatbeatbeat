@@ -82,11 +82,11 @@ test('Modus "each": Startbestimmung ist vor jeder Runde zufaellig', () => {
   assert.equal(g2.round.openerId, 2);
 });
 
-test('startRound beginnt als Startgebot bei 2 und der Opener zieht zuerst', () => {
+test('startRound beginnt als Startgebot bei 1 und der Opener zieht zuerst', () => {
   const g = makeGame();
   G.startWheelRound(g);
   assert.equal(g.round.bid, 0);
-  assert.equal(G.currentBid(g), 2);
+  assert.equal(G.currentBid(g), 1);
   assert.equal(g.round.toMoveId, 1);
   assert.equal(g.round.lastBidderId, null);
 });
@@ -94,9 +94,9 @@ test('startRound beginnt als Startgebot bei 2 und der Opener zieht zuerst', () =
 test('placeBid erhoet Gebot und wechselt den Zug', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  assert.deepEqual(G.placeBid(g, 1, 4), { ok: true });
-  assert.equal(g.round.bid, 4);
-  assert.equal(G.currentBid(g), 4);
+  assert.deepEqual(G.placeBid(g, 1, 2), { ok: true });
+  assert.equal(g.round.bid, 2);
+  assert.equal(G.currentBid(g), 2);
   assert.equal(g.round.lastBidderId, 1);
   assert.equal(g.round.toMoveId, 2);
 });
@@ -104,16 +104,17 @@ test('placeBid erhoet Gebot und wechselt den Zug', () => {
 test('placeBid lehnt ungueltige Gebote ab', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  assert.equal(G.placeBid(g, 2, 4).ok, false); // falscher Spieler (nicht am Zug)
+  assert.equal(G.placeBid(g, 2, 2).ok, false); // falscher Spieler (nicht am Zug)
   assert.equal(G.placeBid(g, 1, 0).ok, false); // unter dem Startgebot
-  assert.equal(G.placeBid(g, 1, 1).ok, false); // nicht im 2-Euro-Schritt
+  assert.equal(G.placeBid(g, 1, 1).ok, true); // 1 Euro ist das Startgebot
   assert.equal(G.placeBid(g, 1, 2.5).ok, false); // kein ganzer Euro
   assert.equal(G.placeBid(g, 1, null).ok, false);
-  assert.equal(g.round.bid, 0); // nichts veraendert
-  G.placeBid(g, 1, 4);
-  assert.equal(G.placeBid(g, 1, 5).ok, false); // nicht mehr am Zug
-  assert.equal(G.placeBid(g, 2, 5).ok, false); // nur 1 Euro drueber
-  assert.equal(G.placeBid(g, 2, 6).ok, true);
+  assert.equal(g.round.bid, 1); // nur das gueltige Gebot gesetzt
+  const g2 = makeGame();
+  G.startWheelRound(g2);
+  G.placeBid(g2, 1, 1);
+  assert.equal(G.placeBid(g2, 2, 1).ok, false); // muss ueber 1 liegen
+  assert.equal(G.placeBid(g2, 2, 2).ok, true); // +1 ist ein erlaubter Schritt
 });
 
 test('Gebote duerfen das Restbudget nicht ueberschreiten', () => {
