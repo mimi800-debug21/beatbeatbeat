@@ -238,10 +238,10 @@
         <div class="card" aria-label="${esc(r.item.name)}">
           <span class="card-emoji" aria-hidden="true">${r.item.emoji}</span>
           <h1 class="card-name">${esc(r.item.name)}</h1>
-        </div>
-        <div class="price-sign quiet" aria-live="polite">
-          <span class="price-eur numeric">${window.game.currentBid(game)}</span>
-          <span class="price-currency">€</span>
+          <div class="price-sign quiet" aria-live="polite">
+            <span class="price-eur numeric">${window.game.currentBid(game)}</span>
+            <span class="price-currency">€</span>
+          </div>
         </div>
       </section>
 

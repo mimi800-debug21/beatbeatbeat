@@ -694,7 +694,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-3xs);
+  gap: var(--space-s);
   flex: 1;
   justify-content: center;
   position: relative;
@@ -702,21 +702,27 @@ button:disabled {
 }
 
 .stage .card {
-  gap: var(--space-3xs);
-  padding: var(--space-xs) var(--space-l);
+  gap: var(--space-s);
+  padding: var(--space-l) var(--space-xl);
+  max-width: 360px;
 }
 
 .stage .card-emoji {
-  font-size: var(--step-4);
+  font-size: var(--step-5);
+}
+
+.stage .card-name {
+  font-size: var(--step-3);
 }
 
 .stage .price-sign {
-  padding: var(--space-3xs) var(--space-s);
-  box-shadow: 0 4px 0 var(--gold-deep);
+  padding: var(--space-2xs) var(--space-l);
+  box-shadow: 0 5px 0 var(--gold-deep);
+  margin-top: auto;
 }
 
 .stage .price-eur {
-  font-size: var(--step-3);
+  font-size: var(--step-4);
 }
 
 .card {
@@ -727,9 +733,9 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-s) var(--space-l);
+  padding: var(--space-s) var(--space-xl);
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
 }
 
 .card-emoji {
@@ -780,7 +786,7 @@ button:disabled {
 .bid-area {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-2xs);
 }
 
 .turn-line {
@@ -813,9 +819,12 @@ button:disabled {
 }
 
 .bid-step {
-  padding: var(--space-2xs) var(--space-2xs);
-  font-size: var(--step-0);
+  padding: var(--space-s) var(--space-2xs);
+  font-size: var(--step-1);
+  font-weight: 700;
   background: var(--surface);
+  min-height: 56px;
+  border-radius: 18px;
 }
 
 .bid-step:nth-child(1) { box-shadow: 0 5px 0 var(--gold-deep); }
@@ -827,11 +836,11 @@ button:disabled {
 .btn-giveup {
   background: var(--p2);
   color: var(--surface);
-  font-size: var(--step-1);
+  font-size: var(--step-2);
   padding: var(--space-s) var(--space-m);
   box-shadow: 0 6px 0 var(--p2-deep);
   width: 100%;
-  min-height: 54px;
+  min-height: 60px;
   position: relative;
   overflow: hidden;
 }
@@ -1210,5 +1219,105 @@ button:disabled {
 @media (min-width: 760px) {
   .results-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== Kurze Bildschirme (kleine Phones): alles etwas kompakter ===== */
+@media (max-height: 700px) {
+  #app {
+    padding-top: var(--space-2xs);
+    gap: var(--space-2xs);
+  }
+
+  .topbar {
+    min-height: 40px;
+    height: auto;
+  }
+
+  .topbar .brand {
+    font-size: var(--step-0);
+  }
+
+  .topbar .crumb {
+    font-size: var(--step--1);
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: var(--step-0);
+  }
+
+  .player-card {
+    padding: var(--space-2xs) var(--space-s);
+    border-radius: 18px;
+  }
+
+  .pc-name {
+    font-size: var(--step--1);
+  }
+
+  .turn-tag {
+    font-size: var(--step--1);
+    padding: 1px 8px;
+  }
+
+  .pc-budget {
+    font-size: var(--step-1);
+    margin-top: var(--space-3xs);
+  }
+
+  .pc-bar {
+    height: 6px;
+  }
+
+  .playerbar {
+    gap: var(--space-2xs);
+  }
+
+  .stage {
+    padding: 0;
+    gap: var(--space-2xs);
+  }
+
+  .stage .card {
+    padding: var(--space-s) var(--space-l);
+    max-width: 320px;
+  }
+
+  .stage .card-emoji {
+    font-size: var(--step-4);
+  }
+
+  .stage .card-name {
+    font-size: var(--step-2);
+  }
+
+  .stage .price-sign {
+    padding: var(--space-2xs) var(--space-s);
+    margin-top: var(--space-2xs);
+  }
+
+  .stage .price-eur {
+    font-size: var(--step-3);
+  }
+
+  .bid-area {
+    gap: var(--space-2xs);
+  }
+
+  .bid-step {
+    min-height: 48px;
+    font-size: var(--step-0);
+  }
+
+  .btn-giveup {
+    min-height: 48px;
+    font-size: var(--step-1);
+    padding: var(--space-s);
+  }
+
+  .bid-preview {
+    font-size: var(--step--1);
   }
 }
