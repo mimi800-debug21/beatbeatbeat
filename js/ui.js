@@ -221,16 +221,6 @@
       ? `${esc(me.name)}: überbieten <span class="turn-who">oder dem anderen lassen</span>`
       : `${esc(me.name)} setzt als Erster ein Gebot!`;
 
-    const cur = window.game.currentBid(game);
-    let preview;
-    if (r.bid === 0) {
-      preview = `Startgebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
-    } else if (r.lastBidderId === me.id) {
-      preview = `Dein Gebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
-    } else {
-      preview = `Überbieten auf <strong>${cur + 1} €</strong> – dann übrig: <strong>${budget - cur - 1} €</strong>`;
-    }
-
     return `
       ${topbar(catName(game), `${esc(r.item.emoji)} ${esc(r.item.name)}`)}
       ${ui.playerBar(game, { highlight: me.id, tag: 'bietet' })}
@@ -247,7 +237,6 @@
 
       <section class="bid-area" aria-label="Gebot abgeben">
         <p class="turn-line"><span class="turn-dot ${me.id === 1 ? 'p1' : 'p2'}"></span>${turnLine}</p>
-        <p class="bid-preview" aria-live="polite">${preview}</p>
         <div class="bid-row">${stepBtns}</div>
         <button type="button" class="btn-giveup" data-action="give-up" ${canGiveUp ? '' : 'disabled'}><span class="giveup-pulse" aria-hidden="true"></span><span aria-hidden="true">🤝</span> Kannst haben</button>
       </section>`;

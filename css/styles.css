@@ -877,23 +877,8 @@ button:disabled {
 }
 
 @keyframes giveUpGlow {
-  0%, 100% { opacity: 0; }
+0%, 100% { opacity: 0; }
   45%, 60% { opacity: 1; }
-}
-
-.bid-preview {
-  margin-top: var(--space-3xs);
-  background: var(--gold);
-  color: var(--ink);
-  font-weight: 700;
-  font-size: var(--step--1);
-  text-align: center;
-  border-radius: var(--radius);
-  padding: var(--space-2xs) var(--space-m);
-}
-
-.bid-preview strong {
-  font-weight: 900;
 }
 
 /* ===== Zuschlag ===== */
@@ -1315,9 +1300,5 @@ button:disabled {
     min-height: 48px;
     font-size: var(--step-1);
     padding: var(--space-s);
-  }
-
-  .bid-preview {
-    font-size: var(--step--1);
   }
 }
