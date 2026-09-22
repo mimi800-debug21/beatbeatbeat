@@ -155,10 +155,10 @@ button:disabled {
   min-height: 100dvh;
   max-width: 720px;
   margin: 0 auto;
-  padding: var(--space-s) var(--space-s) var(--space-l);
+  padding: var(--space-2xs) var(--space-s) var(--space-l);
   display: flex;
   flex-direction: column;
-  gap: var(--space-s);
+  gap: var(--space-2xs);
 }
 
 /* ===== Top-Leiste ===== */
@@ -474,7 +474,7 @@ button:disabled {
 
 .player-card {
   border-radius: var(--radius);
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-2xs) var(--space-s);
   color: #fff;
   box-shadow: var(--shadow-card);
   position: relative;
@@ -505,7 +505,7 @@ button:disabled {
 .pc-name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -530,21 +530,21 @@ button:disabled {
 }
 
 .pc-budget {
-  font-size: var(--step-3);
+  font-size: var(--step-2);
   font-weight: 700;
   line-height: 1.1;
-  margin-top: var(--space-2xs);
+  margin-top: var(--space-3xs);
 }
 
 .pc-budget small {
-  font-size: var(--step-1);
+  font-size: var(--step--1);
 }
 
 .pc-progress {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
-  margin-top: var(--space-2xs);
+  gap: var(--space-2xs);
+  margin-top: var(--space-3xs);
 }
 
 .pc-count {
@@ -554,7 +554,7 @@ button:disabled {
 
 .pc-bar {
   flex: 1;
-  height: 10px;
+  height: 8px;
   background: rgba(255, 255, 255, 0.28);
   border-radius: 999px;
   overflow: hidden;
@@ -694,7 +694,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
   flex: 1;
   justify-content: center;
   position: relative;
@@ -702,21 +702,21 @@ button:disabled {
 }
 
 .stage .card {
-  gap: var(--space-2xs);
-  padding: var(--space-s) var(--space-l);
+  gap: var(--space-3xs);
+  padding: var(--space-xs) var(--space-l);
 }
 
 .stage .card-emoji {
-  font-size: var(--step-5);
+  font-size: var(--step-4);
 }
 
 .stage .price-sign {
-  padding: var(--space-2xs) var(--space-m);
-  box-shadow: 0 5px 0 var(--gold-deep);
+  padding: var(--space-3xs) var(--space-s);
+  box-shadow: 0 4px 0 var(--gold-deep);
 }
 
 .stage .price-eur {
-  font-size: var(--step-4);
+  font-size: var(--step-3);
 }
 
 .card {
@@ -727,42 +727,42 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-m) var(--space-xl);
+  padding: var(--space-s) var(--space-l);
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
 }
 
 .card-emoji {
-  font-size: var(--step-6);
+  font-size: var(--step-5);
   line-height: 1;
 }
 
 .card-name {
-  font-size: var(--step-3);
+  font-size: var(--step-2);
   text-align: center;
 }
 
 .price-sign {
   background: var(--gold);
   border-radius: 999px;
-  box-shadow: 0 6px 0 var(--gold-deep);
+  box-shadow: 0 5px 0 var(--gold-deep);
   display: inline-flex;
   align-items: baseline;
   gap: var(--space-2xs);
-  padding: var(--space-s) var(--space-l);
+  padding: var(--space-2xs) var(--space-m);
   animation: pricePop 0.35s var(--ease-out);
 }
 
 .price-eur {
   font-family: var(--font-display);
-  font-size: var(--step-5);
+  font-size: var(--step-3);
   font-weight: 700;
   line-height: 1;
 }
 
 .price-currency {
   font-family: var(--font-display);
-  font-size: var(--step-2);
+  font-size: var(--step-1);
   font-weight: 600;
 }
 
@@ -780,7 +780,7 @@ button:disabled {
 .bid-area {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
 }
 
 .turn-line {
@@ -788,7 +788,7 @@ button:disabled {
   align-items: center;
   gap: var(--space-2xs);
   font-weight: 800;
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   color: var(--ink-2);
 }
 
@@ -813,8 +813,8 @@ button:disabled {
 }
 
 .bid-step {
-  padding: var(--space-s) var(--space-2xs);
-  font-size: var(--step-1);
+  padding: var(--space-2xs) var(--space-2xs);
+  font-size: var(--step-0);
   background: var(--surface);
 }
 
@@ -827,11 +827,11 @@ button:disabled {
 .btn-giveup {
   background: var(--p2);
   color: var(--surface);
-  font-size: var(--step-2);
-  padding: var(--space-m) var(--space-m);
+  font-size: var(--step-1);
+  padding: var(--space-s) var(--space-m);
   box-shadow: 0 6px 0 var(--p2-deep);
   width: 100%;
-  min-height: 64px;
+  min-height: 54px;
   position: relative;
   overflow: hidden;
 }
@@ -873,11 +873,11 @@ button:disabled {
 }
 
 .bid-preview {
-  margin-top: var(--space-2xs);
+  margin-top: var(--space-3xs);
   background: var(--gold);
   color: var(--ink);
   font-weight: 700;
-  font-size: var(--step-0);
+  font-size: var(--step--1);
   text-align: center;
   border-radius: var(--radius);
   padding: var(--space-2xs) var(--space-m);
