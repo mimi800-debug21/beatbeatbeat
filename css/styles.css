@@ -694,11 +694,29 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--space-2xs);
   flex: 1;
   justify-content: center;
   position: relative;
-  padding: var(--space-s) 0;
+  padding: var(--space-2xs) 0;
+}
+
+.stage .card {
+  gap: var(--space-2xs);
+  padding: var(--space-s) var(--space-l);
+}
+
+.stage .card-emoji {
+  font-size: var(--step-5);
+}
+
+.stage .price-sign {
+  padding: var(--space-2xs) var(--space-m);
+  box-shadow: 0 5px 0 var(--gold-deep);
+}
+
+.stage .price-eur {
+  font-size: var(--step-4);
 }
 
 .card {
@@ -762,7 +780,7 @@ button:disabled {
 .bid-area {
   display: flex;
   flex-direction: column;
-  gap: var(--space-s);
+  gap: var(--space-2xs);
 }
 
 .turn-line {
@@ -791,11 +809,11 @@ button:disabled {
 .bid-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
 }
 
 .bid-step {
-  padding: var(--space-m) var(--space-s);
+  padding: var(--space-s) var(--space-2xs);
   font-size: var(--step-1);
   background: var(--surface);
 }
@@ -814,6 +832,21 @@ button:disabled {
   box-shadow: 0 6px 0 var(--p2-deep);
   width: 100%;
   min-height: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-giveup:not(:disabled) {
+  animation: giveUpBounce 2s var(--ease-out) infinite;
+}
+
+.btn-giveup .giveup-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.35), transparent 62%);
+  opacity: 0;
+  animation: giveUpGlow 2s ease-in-out infinite;
 }
 
 .btn-giveup:hover {
@@ -824,15 +857,30 @@ button:disabled {
   box-shadow: 0 2px 0 var(--p2-deep);
 }
 
+.btn-giveup:disabled {
+  background: var(--ink-3);
+}
+
+@keyframes giveUpBounce {
+  0%, 30%, 60%, 100% { transform: translateY(0); }
+  15% { transform: translateY(-4px); }
+  40% { transform: translateY(-2px); }
+}
+
+@keyframes giveUpGlow {
+  0%, 100% { opacity: 0; }
+  45%, 60% { opacity: 1; }
+}
+
 .bid-preview {
   margin-top: var(--space-2xs);
   background: var(--gold);
   color: var(--ink);
   font-weight: 700;
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   text-align: center;
   border-radius: var(--radius);
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-2xs) var(--space-m);
 }
 
 .bid-preview strong {
@@ -870,7 +918,11 @@ button:disabled {
 }
 
 .flash-line strong {
-  color: var(--gold);
+  color: var(--surface);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: calc(var(--radius) / 2);
+  padding: 0 var(--space-2xs);
+  margin: 0 2px;
 }
 
 .btn-ghost {

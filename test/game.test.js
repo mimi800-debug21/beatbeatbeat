@@ -59,11 +59,11 @@ test('Modus "once": Startbestimmung zufaellig, danach wechselt der Start', () =>
   G.startWheelRound(g);
   assert.equal(g.round.openerId, 1);
   assert.equal(g.roundsPlayed, 1);
-  G.placeBid(g, 1, 1);
+  G.placeBid(g, 1, 2);
   G.giveUp(g, 2);
   G.advanceAfterSold(g);
   assert.equal(g.round.openerId, 2);
-  G.placeBid(g, 2, 1);
+  G.placeBid(g, 2, 2);
   G.giveUp(g, 1);
   G.advanceAfterSold(g);
   assert.equal(g.round.openerId, 1);
@@ -73,7 +73,7 @@ test('Modus "each": Startbestimmung ist vor jeder Runde zufaellig', () => {
   const g = makeGame({ wheelMode: 'each', rng: () => 0 });
   G.startWheelRound(g);
   assert.equal(g.round.openerId, 1);
-  G.placeBid(g, 1, 1);
+  G.placeBid(g, 1, 2);
   G.giveUp(g, 2);
   G.advanceAfterSold(g);
   assert.equal(g.phase, 'wheel'); // Raffel naechste Runde
@@ -82,11 +82,11 @@ test('Modus "each": Startbestimmung ist vor jeder Runde zufaellig', () => {
   assert.equal(g2.round.openerId, 2);
 });
 
-test('startRound beginnt als Startgebot bei 1 und der Opener zieht zuerst', () => {
+test('startRound beginnt als Startgebot bei 2 und der Opener zieht zuerst', () => {
   const g = makeGame();
   G.startWheelRound(g);
   assert.equal(g.round.bid, 0);
-  assert.equal(G.currentBid(g), 1);
+  assert.equal(G.currentBid(g), 2);
   assert.equal(g.round.toMoveId, 1);
   assert.equal(g.round.lastBidderId, null);
 });
@@ -94,9 +94,9 @@ test('startRound beginnt als Startgebot bei 1 und der Opener zieht zuerst', () =
 test('placeBid erhoet Gebot und wechselt den Zug', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  assert.deepEqual(G.placeBid(g, 1, 3), { ok: true });
-  assert.equal(g.round.bid, 3);
-  assert.equal(G.currentBid(g), 3);
+  assert.deepEqual(G.placeBid(g, 1, 4), { ok: true });
+  assert.equal(g.round.bid, 4);
+  assert.equal(G.currentBid(g), 4);
   assert.equal(g.round.lastBidderId, 1);
   assert.equal(g.round.toMoveId, 2);
 });
@@ -104,21 +104,23 @@ test('placeBid erhoet Gebot und wechselt den Zug', () => {
 test('placeBid lehnt ungueltige Gebote ab', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  assert.equal(G.placeBid(g, 2, 3).ok, false); // falscher Spieler (nicht am Zug)
-  assert.equal(G.placeBid(g, 1, 0).ok, false); // kein Schritt nach oben
-  assert.equal(G.placeBid(g, 1, 1.5).ok, false); // kein ganzer Euro
+  assert.equal(G.placeBid(g, 2, 4).ok, false); // falscher Spieler (nicht am Zug)
+  assert.equal(G.placeBid(g, 1, 0).ok, false); // unter dem Startgebot
+  assert.equal(G.placeBid(g, 1, 1).ok, false); // nicht im 2-Euro-Schritt
+  assert.equal(G.placeBid(g, 1, 2.5).ok, false); // kein ganzer Euro
   assert.equal(G.placeBid(g, 1, null).ok, false);
   assert.equal(g.round.bid, 0); // nichts veraendert
-  G.placeBid(g, 1, 3);
-  assert.equal(G.placeBid(g, 1, 4).ok, false); // nicht mehr am Zug
-  assert.equal(G.placeBid(g, 2, 4).ok, true);
+  G.placeBid(g, 1, 4);
+  assert.equal(G.placeBid(g, 1, 5).ok, false); // nicht mehr am Zug
+  assert.equal(G.placeBid(g, 2, 5).ok, false); // nur 1 Euro drueber
+  assert.equal(G.placeBid(g, 2, 6).ok, true);
 });
 
 test('Gebote duerfen das Restbudget nicht ueberschreiten', () => {
   const g = makeGame({ budget: 3 });
   G.startWheelRound(g);
   assert.equal(G.placeBid(g, 1, 4).ok, false);
-  assert.equal(G.placeBid(g, 1, 3).ok, true);
+  assert.equal(G.placeBid(g, 1, 2).ok, true);
 });
 
 test('Opener kann nicht direkt aufgeben (niemand hat geboten)', () => {
@@ -130,38 +132,38 @@ test('Opener kann nicht direkt aufgeben (niemand hat geboten)', () => {
 test('giveUp: der letzte Bieter gewinnt zum aktuellen Preis', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  G.placeBid(g, 1, 3);
+  G.placeBid(g, 1, 4);
   const res = G.giveUp(g, 2);
   assert.equal(res.ok, true);
   assert.equal(res.winnerId, 1);
-  assert.equal(res.price, 3);
-  assert.equal(player(g, 1).budget, 17);
+  assert.equal(res.price, 4);
+  assert.equal(player(g, 1).budget, 16);
   assert.equal(g.phase, 'sold');
   assert.equal(g.won[0].gifted, false);
-  assert.equal(g.won[0].price, 3);
+  assert.equal(g.won[0].price, 4);
 });
 
 test('Gebotshoehe steigt: der hoehere Bieter gewinnt', () => {
   const g = makeGame();
   G.startWheelRound(g);
-  G.placeBid(g, 1, 3);
-  G.placeBid(g, 2, 5);
+  G.placeBid(g, 1, 4);
+  G.placeBid(g, 2, 6);
   G.giveUp(g, 1);
   assert.equal(g.won[0].playerId, 2);
-  assert.equal(g.won[0].price, 5);
-  assert.equal(player(g, 2).budget, 15);
+  assert.equal(g.won[0].price, 6);
+  assert.equal(player(g, 2).budget, 14);
 });
 
 test('Ziel-erreicht fuehrt zu Geschenken fuer den anderen', () => {
   const g = makeGame({ budget: 20, target: 2 });
   G.startWheelRound(g); // Opener: Spieler 1
-  G.placeBid(g, 1, 1);
+  G.placeBid(g, 1, 2);
   G.giveUp(g, 2);
   G.advanceAfterSold(g); // 1/2 fuer Spieler 1 - kein Trigger
   assert.equal(g.phase, 'auction');
   assert.equal(G.countWon(g, 1), 1);
-  G.placeBid(g, 2, 1); // Runde 2, Opener ist Spieler 2
-  G.placeBid(g, 1, 2);
+  G.placeBid(g, 2, 2); // Runde 2, Opener ist Spieler 2
+  G.placeBid(g, 1, 4);
   G.giveUp(g, 2); // 2/2 fuer Spieler 1 -> Geschenk-Bedarf
   G.advanceAfterSold(g);
   assert.equal(g.phase, 'gift');
@@ -175,13 +177,14 @@ test('Ziel-erreicht fuehrt zu Geschenken fuer den anderen', () => {
 });
 
 test('0 Euro Restbudget fuehrt zu Geschenken', () => {
-  const g = makeGame({ budget: 3, target: 2 });
+  const g = makeGame({ budget: 6, target: 2 });
   G.startWheelRound(g); // Opener: Spieler 1
-  G.placeBid(g, 1, 1);
-  G.giveUp(g, 2);
-  G.advanceAfterSold(g);
-  G.placeBid(g, 2, 1); // Runde 2, Opener: Spieler 2
   G.placeBid(g, 1, 2);
+  G.giveUp(g, 2);
+  G.advanceAfterSold(g); // 1/2 fuer Spieler 1 - kein Trigger
+  assert.equal(g.phase, 'auction');
+  G.placeBid(g, 2, 2); // Runde 2, Opener: Spieler 2
+  G.placeBid(g, 1, 4);
   G.giveUp(g, 2);
   G.advanceAfterSold(g); // Spieler 1 hat 0 Euro -> Geschenke
   assert.equal(g.phase, 'gift');
@@ -192,7 +195,7 @@ test('0 Euro Restbudget fuehrt zu Geschenken', () => {
   assert.equal(G.countWon(g, 1), 2);
   assert.equal(G.countWon(g, 2), 2);
   assert.equal(player(g, 1).budget, 0);
-  assert.equal(player(g, 2).budget, 3);
+  assert.equal(player(g, 2).budget, 6);
 });
 
 test('gar keine negativen Budgets in einer ganzen Partie', () => {
@@ -200,8 +203,8 @@ test('gar keine negativen Budgets in einer ganzen Partie', () => {
   let guard = 0;
   while (g.phase === 'auction' && guard++ < 100) {
     const mover = g.round.toMoveId;
-    if (player(g, mover).budget >= g.round.bid + 1) {
-      G.placeBid(g, mover, g.round.bid + 1);
+    if (player(g, mover).budget >= g.round.bid + 2) {
+      G.placeBid(g, mover, g.round.bid + 2);
     } else {
       const res = G.giveUp(g, mover);
       if (res.ok) G.advanceAfterSold(g);
@@ -230,9 +233,9 @@ test('ganze Partie: Spieler 1 ersteigert alles, Spieler 2 wird aufgefuellt', () 
   while (g.phase === 'auction' && guard++ < 50) {
     const mover = g.round.toMoveId;
     if (mover === 1) {
-      G.placeBid(g, 1, g.round.bid + 1);
+      G.placeBid(g, 1, g.round.bid + 2);
     } else if (g.round.lastBidderId === null) {
-      G.placeBid(g, 2, 1); // Spieler 2 als Opener muss zuerst bieten
+      G.placeBid(g, 2, 2); // Spieler 2 als Opener muss zuerst bieten
     } else {
       G.giveUp(g, 2);
       G.advanceAfterSold(g);
@@ -243,6 +246,6 @@ test('ganze Partie: Spieler 1 ersteigert alles, Spieler 2 wird aufgefuellt', () 
   assert.equal(g.phase, 'results');
   assert.equal(G.countWon(g, 1), 5);
   assert.equal(G.countWon(g, 2), 5);
-  assert.equal(player(g, 1).budget, 13); // 1 + 2 + 1 + 2 + 1 Euro
+  assert.equal(player(g, 1).budget, 6); // 2 + 4 + 2 + 4 + 2 Euro
   assert.equal(player(g, 2).budget, 20);
 });

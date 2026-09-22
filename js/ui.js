@@ -13,14 +13,16 @@
       .replace(/'/g, '&#39;');
   }
 
-  function setRoot(html) {
+  function setRoot(html, opts) {
+    const preserve = opts && opts.preserve;
+    const y = preserve ? window.scrollY : 0;
     document.getElementById('app').innerHTML = html;
     const h = document.querySelector('#app h1');
     if (h && !h.hasAttribute('tabindex')) {
       h.setAttribute('tabindex', '-1');
       h.focus({ preventScroll: true });
     }
-    window.scrollTo(0, 0);
+    if (!preserve) window.scrollTo(0, 0);
   }
 
   function announce(msg) {
@@ -48,7 +50,9 @@
 
   // ============ Setup-Screen ============
   ui.renderSetup = function (categories, defaults) {
-    const catEntries = Object.entries(categories);
+    const order = window.CATEGORY_ORDER || Object.keys(categories);
+    const extra = Object.keys(categories).filter((k) => !order.includes(k));
+    const catEntries = order.concat(extra).filter((k) => categories[k]).map((k) => [k, categories[k]]);
     const activeCat = categories[defaults.category];
     const poolSize = activeCat.items.length;
     const maxTarget = Math.floor(poolSize / 2);
@@ -201,8 +205,8 @@
     const budget = me.budget;
     const bid = r.bid;
     const stepBtns = [
-      { step: 1, label: '+1&nbsp;€', avail: budget >= bid + 1 },
-      { step: 5, label: '+5&nbsp;€', avail: budget >= bid + 5 },
+      { step: 2, label: '+2&nbsp;€', avail: budget >= bid + 2 },
+      { step: 6, label: '+6&nbsp;€', avail: budget >= bid + 6 },
       { step: 10, label: '+10&nbsp;€', avail: budget >= bid + 10 },
       { step: 'max', label: 'All-in', avail: budget > bid }
     ]
@@ -224,7 +228,7 @@
     } else if (r.lastBidderId === me.id) {
       preview = `Dein Gebot <strong>${cur} €</strong> – danach übrig: <strong>${budget - cur} €</strong>`;
     } else {
-      preview = `Überbieten auf <strong>${cur + 1} €</strong> – dann übrig: <strong>${budget - cur - 1} €</strong>`;
+      preview = `Überbieten auf <strong>${cur + 2} €</strong> – dann übrig: <strong>${budget - cur - 2} €</strong>`;
     }
 
     return `
@@ -245,7 +249,7 @@
         <p class="turn-line"><span class="turn-dot ${me.id === 1 ? 'p1' : 'p2'}"></span>${turnLine}</p>
         <p class="bid-preview" aria-live="polite">${preview}</p>
         <div class="bid-row">${stepBtns}</div>
-        <button type="button" class="btn-giveup" data-action="give-up" ${canGiveUp ? '' : 'disabled'}>🤝 Kannst haben</button>
+        <button type="button" class="btn-giveup" data-action="give-up" ${canGiveUp ? '' : 'disabled'}><span class="giveup-pulse" aria-hidden="true"></span><span aria-hidden="true">🤝</span> Kannst haben</button>
       </section>`;
   };
 

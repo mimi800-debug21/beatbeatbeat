@@ -1,10 +1,18 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { CATEGORIES } = require('../js/data.js');
+const { CATEGORIES, CATEGORY_ORDER } = require('../js/data.js');
 
 test('Katalog enthält 20 Kategorien', () => {
   assert.equal(Object.keys(CATEGORIES).length, 20);
+});
+
+test('CATEGORY_ORDER listet alle Kategorien genau einmal', () => {
+  assert.equal(CATEGORY_ORDER.length, 20);
+  assert.equal(new Set(CATEGORY_ORDER).size, 20, 'doppelte Keys');
+  for (const key of Object.keys(CATEGORIES)) {
+    assert.ok(CATEGORY_ORDER.includes(key), `${key} fehlt`);
+  }
 });
 
 test('Jede Kategorie hat einen Namen und ein Emoji', () => {

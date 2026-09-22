@@ -111,27 +111,32 @@
     ui.announce('Link: ' + SHARE_URL);
   }
 
+  let lastPhase = null;
+
   function render() {
     const g = state.game;
     if (!g) {
       ui.renderSetup(window.CATEGORIES, defaults);
+      lastPhase = null;
       return;
     }
+    const preserve = g.phase === lastPhase;
+    lastPhase = g.phase;
     switch (g.phase) {
       case 'wheel':
-        ui.setRoot(ui.wheelScreen(g, g.roundsPlayed + 1));
+        ui.setRoot(ui.wheelScreen(g, g.roundsPlayed + 1), { preserve: false });
         break;
       case 'auction':
-        ui.setRoot(ui.auctionScreen(g));
+        ui.setRoot(ui.auctionScreen(g), { preserve });
         break;
       case 'sold':
-        ui.setRoot(ui.soldScreen(g));
+        ui.setRoot(ui.soldScreen(g), { preserve: false });
         break;
       case 'gift':
-        ui.setRoot(ui.giftScreen(g));
+        ui.setRoot(ui.giftScreen(g), { preserve: false });
         break;
       case 'results':
-        ui.setRoot(ui.resultsScreen(g));
+        ui.setRoot(ui.resultsScreen(g), { preserve: false });
         break;
       default:
         ui.renderSetup(window.CATEGORIES, defaults);

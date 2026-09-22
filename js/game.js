@@ -77,9 +77,9 @@
     g.phase = 'auction';
   };
 
-  // Angezeigter Preis einer Runde: das Startgebot von 1 Euro steht zu Beginn.
+  // Angezeigter Preis einer Runde: das Startgebot von 2 Euro steht zu Beginn.
   game.currentBid = function (g) {
-    return g.round && g.round.bid > 0 ? g.round.bid : 1;
+    return g.round && g.round.bid > 0 ? g.round.bid : 2;
   };
 
   game.startWheelRound = function (g) {
@@ -93,8 +93,10 @@
     const r = g.round;
     if (g.phase !== 'auction' || !r || r.over) return { ok: false, reason: 'phase' };
     if (playerId !== r.toMoveId) return { ok: false, reason: 'not-your-turn' };
-    if (!Number.isInteger(amount) || amount < 1) return { ok: false, reason: 'invalid-amount' };
-    if (amount <= r.bid) return { ok: false, reason: 'too-low' };
+    if (!Number.isInteger(amount) || amount < 2) return { ok: false, reason: 'invalid-amount' };
+    if (amount <= r.bid || (r.bid > 0 && amount < r.bid + 2)) {
+      return { ok: false, reason: 'too-low' };
+    }
     if (amount > game.player(g, playerId).budget) return { ok: false, reason: 'no-budget' };
     r.bid = amount;
     r.lastBidderId = playerId;
